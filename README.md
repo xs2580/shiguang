@@ -453,7 +453,7 @@ cd shiguang
 ## 十三、许可证
 
 代码与工程内容基于 **MIT License** 开源，详见 [LICENSE](LICENSE)。
-第三方素材（3D 模型、UI 包、字体）版权归各自权利人，不在 MIT 授权范围内。
+第三方素材（3D 模型、UI 包、字体）版权归各自权利人，**授权状况与二次使用说明详见 [NOTICE.md](NOTICE.md)**。
 
 <div align="center">
 <br>
