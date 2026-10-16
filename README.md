@@ -14,7 +14,7 @@
 ![Award](https://img.shields.io/badge/Award-省赛三等奖-c0392b)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-[项目简介](#一这是什么) · [获奖情况](#二获奖情况) · [玩法机制](#四玩法机制) · [技术实现](#五技术选型) · [快速开始](#九快速开始) · [下载试玩](https://github.com/xs2580/shiguang/releases/latest)
+[项目简介](#一这是什么) · [**演示视频**](#演示视频) · [获奖情况](#二获奖情况) · [玩法机制](#四玩法机制) · [技术实现](#五技术选型) · [快速开始](#九快速开始) · [下载试玩](https://github.com/xs2580/shiguang/releases/latest)
 
 </div>
 
@@ -31,6 +31,14 @@
 > 灵感来自海伦·凯勒的《假如给我三天光明》。我们把它改写成「假如每天给我十五分钟光明」。
 
 这个项目的目标不是「做一个好玩的游戏」，而是**用沉浸式的 3D 场景 + 温柔的叙事，让视力正常的玩家短暂地代入盲人的世界**：当你在漆黑中摸索着找到餐桌、在模糊的视野里辨认出一盘菜、在回忆起味道的瞬间被点亮——你会开始理解，那份我们习以为常的光明，究竟有多珍贵。
+
+### 演示视频
+
+下面这段是参赛时录制的演示片（**1 分 56 秒**，1184×720，含实机运行画面），完整走了一遍第一章：**清醒梦 → 卧室 → 餐厅**。不用装任何东西，直接点开看就行。
+
+https://github.com/user-attachments/assets/ec83ac7b-070a-455b-90dd-212cff17d086
+
+> 📥 想存下来慢慢看？下载原片 → [`Shiguang_Gameplay_Demo.mp4`](https://github.com/xs2580/shiguang/releases/download/v1.0.0/Shiguang_Gameplay_Demo.mp4)（7.3 MB）
 
 ### 一句话卖点
 
@@ -337,6 +345,8 @@ public class TuiChu : MonoBehaviour
 3. 若提示缺少运行库，安装 [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 
 > 游戏为 **Windows x64** 平台，需要 64 位系统。
+>
+> 不想先下载？可以先看[演示视频](#演示视频)，或者直接下载体积更小的 [`Shiguang_Gameplay_Demo.mp4`](https://github.com/xs2580/shiguang/releases/download/v1.0.0/Shiguang_Gameplay_Demo.mp4)。
 
 ### 9.2 想打开工程看源码
 
