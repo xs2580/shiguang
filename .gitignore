@@ -1,0 +1,82 @@
+# ============================================================
+#  拾光 (Picking Up the Light) — Unity 工程 .gitignore
+#  Unity 2022.3.56f1c1 / Windows
+# ============================================================
+
+# ------------------------------------------------------------
+# 1. Unity 自动生成的目录（体积大、可重建，一定不要提交）
+# ------------------------------------------------------------
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emory[Cc]aptures/
+/[Rr]ecordings/
+/[Aa]ssets/[Aa]ssetStoreTools*
+/[Aa]ssets/[Pp]lugins/[Ee]ditor/JetBrains*
+
+# ------------------------------------------------------------
+# 2. IDE / 编辑器自动生成的项目文件
+# ------------------------------------------------------------
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+
+# ------------------------------------------------------------
+# 3. 操作系统与打包产物
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.apk
+*.aab
+*.unitypackage
+*.app
+crashlytics-build.properties
+sysinfo.txt
+/[Ee]xported[Oo]bj/
+
+# ------------------------------------------------------------
+# 4. Unity 构建输出（Windows 可玩版）
+#    需要可执行文件请到 GitHub Releases 页面下载 v1.0.0 发布包
+# ------------------------------------------------------------
+/[Bb]uilds/[Ww]indows/
+/*_Data/
+/UnityPlayer.dll
+/UnityCrashHandler64.exe
+/MonoBleedingEdge/
+/*.exe
+*.zip
+
+# ============================================================
+# 5. 第三方大型 3D 场景素材 —— 有意排除，不是遗漏！
+#
+#    场景里的卧室、餐厅、菜品来自 3d66 网的商业 3D 模型
+#    （VRay 材质），单文件最大 147 MB，且受第三方授权约束，
+#    因此不纳入公开仓库。
+#
+#    排除后仓库仅 ~13 MB；缺失的 .fbx / .fbm 不影响代码、
+#    UI、动画、脚本与工程配置的阅读。详见 README「素材说明」。
+# ============================================================
+/Assets/*.fbx
+/Assets/*.fbx.meta
+/Assets/*.fbm/
+/Assets/*.fbm.meta

@@ -1,0 +1,53 @@
+# ============================================================
+#  拾光 — Git 属性配置
+# ============================================================
+
+# 默认：由 Git 自动判断文本/二进制
+* text=auto
+
+# ---------- Unity 文本资产：强制 LF，避免跨平台 CRLF 噪音 ----------
+*.unity      text eol=lf
+*.prefab     text eol=lf
+*.asset      text eol=lf
+*.meta       text eol=lf
+*.mat        text eol=lf
+*.anim       text eol=lf
+*.controller text eol=lf
+*.overrideController text eol=lf
+*.physicMaterial     text eol=lf
+*.physicsMaterial2D  text eol=lf
+*.shader     text eol=lf
+*.cginc      text eol=lf
+*.hlsl       text eol=lf
+*.asmdef     text eol=lf
+*.json       text eol=lf
+
+# ---------- C# 源码 ----------
+*.cs         text eol=lf diff=csharp
+
+# ---------- 二进制资源：禁止任何行尾转换 ----------
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.psd        binary
+*.tga        binary
+*.gif        binary
+*.bmp        binary
+*.exr        binary
+*.hdr        binary
+*.ttf        binary
+*.TTF        binary
+*.otf        binary
+*.pdf        binary
+*.fbx        binary
+*.FBX        binary
+*.obj        binary
+*.blend      binary
+*.wav        binary
+*.mp3        binary
+*.ogg        binary
+*.mp4        binary
+*.unitypackage binary
+
+# ---------- GitHub 语言统计：标记为文档，不参与代码占比 ----------
+*.meta       linguist-generated=true
