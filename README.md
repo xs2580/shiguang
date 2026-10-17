@@ -15,7 +15,7 @@
 ![Award](https://img.shields.io/badge/Award-省赛三等奖-c0392b)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-[项目简介](#一这是什么) · [**演示视频**](#演示视频) · [获奖情况](#二获奖情况) · [玩法机制](#四玩法机制) · [技术实现](#五技术选型) · [**Blender 建模流程**](#blender-workflow) · [快速开始](#九快速开始) · [下载试玩](https://github.com/xs2580/shiguang/releases/latest)
+[项目简介](#一这是什么) · [**演示视频**](#演示视频) · [获奖情况](#二获奖情况) · [玩法机制](#四玩法机制) · [技术实现](#五技术选型) · [**Blender 建模流程**](#52-模型工作流blender--fbx--unity) · [快速开始](#九快速开始) · [下载试玩](https://github.com/xs2580/shiguang/releases/latest)
 
 </div>
 
@@ -139,7 +139,7 @@ https://github.com/user-attachments/assets/ec83ac7b-070a-455b-90dd-212cff17d086
 
 | 层级 | 技术 | 版本 / 说明 |
 | --- | --- | --- |
-| **3D 建模（DCC）** | **Blender** | **3.6.12 / 4.2.0**（`Blender Foundation`，stable FBX IO）——**全部场景与道具模型均在 Blender 中完成并导出 FBX**，详见 [5.2](#blender-workflow) |
+| **3D 建模（DCC）** | **Blender** | **3.6.12 / 4.2.0**（`Blender Foundation`，stable FBX IO）——**全部场景与道具模型均在 Blender 中完成并导出 FBX**，详见 [5.2](#52-模型工作流blender--fbx--unity) |
 | **场景格式** | FBX（二进制） | `Kaydara FBX Binary`，`Creator: Blender (stable FBX IO)`，由 Blender 导出后导入 Unity |
 | **引擎** | Unity | **2022.3.56f1c1**（Unity 2022 LTS 长期支持版，中国版发行号带 `c1`） |
 | **渲染管线** | Built-in Render Pipeline | 使用引擎内置渲染管线（未引入 URP / HDRP），保证兼容性与构建体积 |
@@ -162,7 +162,7 @@ https://github.com/user-attachments/assets/ec83ac7b-070a-455b-90dd-212cff17d086
 
 所以你会看到工程里 C# 脚本只有 5 个、`Assembly-CSharp.dll` 编译后仅 68 KB，而交互逻辑大量分布在 `.asset`（Visual Scripting Graph）与 `.prefab` 中。
 
-### <a id="blender-workflow"></a>5.2 模型工作流：Blender → FBX → Unity
+### 5.2 模型工作流：Blender → FBX → Unity
 
 **游戏里所有 3D 模型（卧室场景、餐厅场景、菜品道具）都在 Blender 中制作，导出 FBX 后导入 Unity**，形成一条完整的 DCC → 引擎 资产管线：
 
@@ -380,7 +380,7 @@ public class TuiChu : MonoBehaviour
 | --- | --- | --- |
 | **主视觉** | `Assets/shiguang.jpg` | 星空漩涡 + 白色蝴蝶 + 手写「拾光」二字，作为封面 / 首页 |
 | **结束页** | `Assets/end.jpg` | 「未完待续……」黑底白字，第一章收尾 |
-| **3D 模型** | 卧室、餐厅、菜品 | **Blender 3.6 / 4.2 制作并导出 FBX**（见 [5.2](#blender-workflow)），因体积原因未入库 |
+| **3D 模型** | 卧室、餐厅、菜品 | **Blender 3.6 / 4.2 制作并导出 FBX**（见 [5.2](#52-模型工作流blender--fbx--unity)），因体积原因未入库 |
 | **UI 素材** | `Assets/Freeui/` | FreeUI / ZOSMA 免费 UI 包：按钮、底板、图标、装饰等切图 |
 | **中文字体** | TextMesh Pro 资源 | 通过 TMP 渲染中文，配合自建的字体资源使用 |
 | **动画** | `go` / `go1` / `no` / `no1` | 角色点头、摇头等表情动作 |
@@ -474,7 +474,7 @@ cd shiguang
 
 - 本仓库**代码与工程部分**采用 MIT 协议，欢迎学习、参考、二次开发；
 - 二次发布时请**自行取得 3D 模型贴图的合法授权**，并保留本项目出处；
-- 若你打算复用这套 **Blender → Unity** 的资产管线，可以直接照搬 [5.2 节](#blender-workflow)的 `ModelImporter` 配置表；
+- 若你打算复用这套 **Blender → Unity** 的资产管线，可以直接照搬 [5.2 节](#52-模型工作流blender--fbx--unity)的 `ModelImporter` 配置表；
 - 请勿将本项目整体用于商业售卖。
 
 ---
