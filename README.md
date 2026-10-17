@@ -6,15 +6,16 @@
 
 **一款以「盲人视角」为主题的 3D 叙事解谜小游戏**
 
-`Unity 2022.3 LTS` · `C# + Visual Scripting` · `Built-in Render Pipeline` · `Windows`
+`Unity 2022.3 LTS` · `Blender` · `C# + Visual Scripting` · `Built-in Render Pipeline` · `Windows`
 
 ![Engine](https://img.shields.io/badge/Unity-2022.3.56f1c1-000000?logo=unity&logoColor=white)
+![Modeling](https://img.shields.io/badge/Blender-3.6%20%2F%204.2-F5792A?logo=blender&logoColor=white)
 ![Language](https://img.shields.io/badge/C%23-Visual%20Scripting-239120?logo=csharp&logoColor=white)
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D4?logo=windows&logoColor=white)
 ![Award](https://img.shields.io/badge/Award-省赛三等奖-c0392b)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-[项目简介](#一这是什么) · [**演示视频**](#演示视频) · [获奖情况](#二获奖情况) · [玩法机制](#四玩法机制) · [技术实现](#五技术选型) · [快速开始](#九快速开始) · [下载试玩](https://github.com/xs2580/shiguang/releases/latest)
+[项目简介](#一这是什么) · [**演示视频**](#演示视频) · [获奖情况](#二获奖情况) · [玩法机制](#四玩法机制) · [技术实现](#五技术选型) · [**Blender 建模流程**](#blender-workflow) · [快速开始](#九快速开始) · [下载试玩](https://github.com/xs2580/shiguang/releases/latest)
 
 </div>
 
@@ -46,7 +47,7 @@ https://github.com/user-attachments/assets/ec83ac7b-070a-455b-90dd-212cff17d086
 | --- | --- |
 | **题材** | 罕见地选择「残障关怀 / 视障体验」作为核心主题，而非打怪升级 |
 | **核心机制** | 「每天 15 分钟光明」——把「光」本身做成了有限资源，玩家的每次观察都在消耗它 |
-| **表现形式** | 3D 写实场景（卧室 / 餐厅）＋ 图文叙事 ＋ 物品回忆触发 |
+| **表现形式** | Blender 建模的 3D 写实场景（卧室 / 餐厅）＋ 图文叙事 ＋ 物品回忆触发 |
 | **情感落点** | 不靠说教，靠「让你亲身体验一次看不见」来唤起共情 |
 | **技术路线** | Unity 2022.3 LTS ＋ 可视化脚本驱动交互逻辑，快速原型迭代 |
 
@@ -138,6 +139,8 @@ https://github.com/user-attachments/assets/ec83ac7b-070a-455b-90dd-212cff17d086
 
 | 层级 | 技术 | 版本 / 说明 |
 | --- | --- | --- |
+| **3D 建模（DCC）** | **Blender** | **3.6.12 / 4.2.0**（`Blender Foundation`，stable FBX IO）——**全部场景与道具模型均在 Blender 中完成并导出 FBX**，详见 [5.2](#blender-workflow) |
+| **场景格式** | FBX（二进制） | `Kaydara FBX Binary`，`Creator: Blender (stable FBX IO)`，由 Blender 导出后导入 Unity |
 | **引擎** | Unity | **2022.3.56f1c1**（Unity 2022 LTS 长期支持版，中国版发行号带 `c1`） |
 | **渲染管线** | Built-in Render Pipeline | 使用引擎内置渲染管线（未引入 URP / HDRP），保证兼容性与构建体积 |
 | **编程语言** | C# | 用于交互逻辑、场景跳转、退出等系统级功能 |
@@ -159,11 +162,61 @@ https://github.com/user-attachments/assets/ec83ac7b-070a-455b-90dd-212cff17d086
 
 所以你会看到工程里 C# 脚本只有 5 个、`Assembly-CSharp.dll` 编译后仅 68 KB，而交互逻辑大量分布在 `.asset`（Visual Scripting Graph）与 `.prefab` 中。
 
+### <a id="blender-workflow"></a>5.2 模型工作流：Blender → FBX → Unity
+
+**游戏里所有 3D 模型（卧室场景、餐厅场景、菜品道具）都在 Blender 中制作，导出 FBX 后导入 Unity**，形成一条完整的 DCC → 引擎 资产管线：
+
+```
+┌─────────────┐    导出 FBX     ┌──────────────┐    ModelImporter    ┌─────────────┐
+│   Blender   │ ──────────────► │  *.fbx  +    │ ──────────────────► │    Unity    │
+│ 3.6 / 4.2   │  stable FBX IO  │  *.fbm/ 贴图 │   自动提取贴图      │  场景 / 材质 │
+└─────────────┘                 └──────────────┘                     └─────────────┘
+   建模 · 展UV                    191 MB（3 个模型）                    Prefab / 碰撞
+   材质 · 减面                    + 约 200 MB 贴图                      渲染配置
+```
+
+**Blender 版本证据**（写在 FBX 文件元数据里，可被任何文本工具读出）：
+
+| 模型文件 | Creator 字段 | Original\|ApplicationName | Volume |
+| --- | --- | --- | --- |
+| `卧室1.fbx` | `Blender (stable FBX IO) - 4.2.0 - 5.12.4` | Blender (stable FBX IO) | 147.1 MB |
+| `餐厅.fbx` | `Blender (stable FBX IO) - 3.6.12 - 5.4.1` | Blender (stable FBX IO) | 45.6 MB |
+| `菜1.fbx` | `Blender (stable FBX IO) - 3.6.12 - 5.4.1` | Blender (stable FBX IO) | 16.2 MB |
+
+三个文件的 `Original|ApplicationVendor` 均为 **`Blender Foundation`**，`HeaderExtension.Creator` 明确标注为 Blender 的 FBX IO 模块导出。
+
+#### 为什么用 Blender 而不是直接在 Unity 里搭？
+
+1. **复杂室内场景需要真正的建模工具** —— 卧室里的床、衣柜、书桌，餐厅里的桌椅、餐边柜，这些有机曲面与硬表面混合的物件，用 Unity 的 Primitive（Cube / Sphere）拼是做不出写实质感的；Blender 的多边形建模、倒角、布尔运算能一次性把结构做扎实。
+2. **UV 展开与材质分配** —— 室内模型的贴图利用率很关键，Blender 的 UV Editor + 智能 UV 投射能让一张贴图铺完整面墙，直接决定最终画面的精细度。
+3. **面数可控** —— 本项目参加的「工程场景数字化」赛项，对模型面数与渲染效率有明确要求。在 Blender 里做**减面（Decimate）**，比导入引擎后再优化要直观得多。
+4. **开源免费，团队零成本** —— 对学生团队来说，不用授权费、不用装破解、跨平台，每个成员都能打开同一个 `.blend` 文件直接改。
+
+#### 导入 Unity 时的关键配置
+
+三个 FBX 在 Unity 的 `ModelImporter` 配置保持一致（写在 `.fbx.meta` 里，随仓库分发）：
+
+| 配置项 | 取值 | 说明 |
+| --- | --- | --- |
+| `useFileScale` | `1` | **沿用文件缩放**，保证 Blender 里的比例直接还原到 Unity，避免手动换算 |
+| `globalScale` | `1` | 不额外缩放（Unity 与 Blender 的单位差通过 FBX 自身处理） |
+| `importCameras` / `importLights` | `1` / `1` | 连 Blender 里的相机与灯光一并导入，省去引擎内重新布光 |
+| `importVisibility` | `1` | 导入 Blender 中的可见性动画 |
+| `materialImportMode` | `2` | 导入材质并按 Unity 标准着色器重建 |
+| `useSRGBMaterialColor` | `1` | 颜色按 sRGB 处理，避免导出的颜色偏亮/偏暗 |
+| `normalImportMode` | `0` | 法线导入：Import（沿用 Blender 烘焙的法线） |
+| `isReadable` | `0` | 关闭 CPU 可读，减少内存占用 |
+| `meshCompression` | `0` | 不做网格压缩，保证画质优先 |
+| `animationType` | `2` | 通用 Rig（Generic） |
+| `addColliders` | `0` | 不给每个 Mesh 自动加碰撞体，改为在 Unity 里按需手动挂 `Mesh Collider`（这正是 `InteractableObject.cs` 的 `useCollision` 开关依赖的前提） |
+
+> **实践要点**：Blender → Unity 最常见的坑是**朝向和缩放**。Blender 用 Z-up 右手系，Unity 用 Y-up 左手系；Blender 的 FBX 导出器负责转换，但如果导入后模型躺倒或缩放 100 倍，问题通常出在导出面板的 **Apply Transform（应用变换）** 没有生效。本项目通过 `useFileScale: 1` + 导出前在 Blender 里 `Ctrl+A → Apply All Transforms` 来保证两侧一致。
+
 ---
 
 ## 六、工程结构
 
-> 下面是仓库的完整目录结构（已排除 `Library/` 等生成目录）。带 **`◆`** 的是项目自有的核心内容，带 **`▸`** 的是第三方资源包。
+> 下面是仓库的完整目录结构（已排除 `Library/` 等生成目录）。带 **`◆`** 的是项目自有的核心内容，带 **`▸`** 的是体积过大未入库（或第三方来源）的资源。
 
 ```
 My project 4/                         ← Unity 工程根目录
@@ -194,9 +247,9 @@ My project 4/                         ← Unity 工程根目录
 │   ├── ◆ end.jpg                     ★ 「未完待续」结束图
 │   ├── ◆ Materials/新建渲染器纹理1.mat
 │   │
-│   ├── ▸ 卧室1.fbx  /  卧室1.fbm/     第三方卧室场景模型（已排除出仓库，见第十节）
-│   ├── ▸ 餐厅.fbx   /  餐厅.fbm/      第三方餐厅场景模型（已排除出仓库，见第十节）
-│   ├── ▸ 菜1.fbx    /  菜1.fbm/       第三方菜品模型（已排除出仓库，见第十节）
+│   ├── ▸ 卧室1.fbx  /  卧室1.fbm/     Blender 4.2 建模导出 · 卧室场景（未入库，见第十节）
+│   ├── ▸ 餐厅.fbx   /  餐厅.fbm/      Blender 3.6 建模导出 · 餐厅场景（未入库，见第十节）
+│   ├── ▸ 菜1.fbx    /  菜1.fbm/       Blender 3.6 建模导出 · 菜品道具（未入库，见第十节）
 │   │
 │   ├── ▸ Freeui/                     免费 UI 素材包（FreeUI + ZOSMA）
 │   │   ├── Main.unity / Set.unity / Stage.unity / FreeUI.unity   UI 示例场景（未启用）
@@ -214,7 +267,7 @@ My project 4/                         ← Unity 工程根目录
 │   └── manifest.json                 ← 包依赖清单
 │
 ├── docs/                             ← 本文档用图（封面 / 结束页 / 获奖证书）
-├── .gitignore                        ← 忽略规则 + 第三方大素材排除说明
+├── .gitignore                        ← 忽略规则 + 大体积模型排除说明（第十节）
 ├── .gitattributes                    ← Unity 文本资产 LF 换行 / 二进制标记
 ├── LICENSE                           ← MIT
 └── README.md                         ← 你正在看的这份
@@ -327,7 +380,7 @@ public class TuiChu : MonoBehaviour
 | --- | --- | --- |
 | **主视觉** | `Assets/shiguang.jpg` | 星空漩涡 + 白色蝴蝶 + 手写「拾光」二字，作为封面 / 首页 |
 | **结束页** | `Assets/end.jpg` | 「未完待续……」黑底白字，第一章收尾 |
-| **3D 场景** | 卧室、餐厅、菜品模型 | 3d66 网商业资源（VRay 材质），**未纳入仓库**，见下一节 |
+| **3D 模型** | 卧室、餐厅、菜品 | **Blender 3.6 / 4.2 制作并导出 FBX**（见 [5.2](#blender-workflow)），因体积原因未入库 |
 | **UI 素材** | `Assets/Freeui/` | FreeUI / ZOSMA 免费 UI 包：按钮、底板、图标、装饰等切图 |
 | **中文字体** | TextMesh Pro 资源 | 通过 TMP 渲染中文，配合自建的字体资源使用 |
 | **动画** | `go` / `go1` / `no` / `no1` | 角色点头、摇头等表情动作 |
@@ -378,7 +431,7 @@ cd shiguang
 #    File → Build Settings → Windows, Mac, Linux → Build
 ```
 
-> **⚠️ 关于缺失的 3D 模型**：仓库有意排除了 `卧室1.fbx`、`餐厅.fbx`、`菜1.fbx` 及其配套贴图（第三方商业模型，共约 390 MB）。clone 下来后**场景里会出现模型丢失（Missing Prefab / 粉色材质）**，这是预期行为——**不影响阅读代码、UI、动画与工程配置**。若需要完整工程（含模型），请下载 Release 中的可执行版，或联系作者获取素材。
+> **⚠️ 关于缺失的 3D 模型**：仓库中有意排除了 `卧室1.fbx`、`餐厅.fbx`、`菜1.fbx` 及其配套贴图（共约 390 MB，**详见第十节**）。clone 下来后**场景里会出现模型丢失（Missing Prefab / 粉色材质）**，这是预期行为——**不影响阅读代码、UI、动画与工程配置**。若需要完整工程（含模型），请下载 Release 中的可执行版，或联系作者获取素材。
 
 ---
 
@@ -389,6 +442,8 @@ cd shiguang
 ### 10.1 项目原创内容（MIT 许可）
 
 - 全部 5 个 C# 脚本（`InteractableObject.cs`、`beer.cs`、`control.cs`、`control1.cs`、`TuiChu.cs`）
+- **全部 3D 模型的建模、UV、材质与整合工作**（在 **Blender 3.6 / 4.2** 中完成，导出为 FBX）
+- **Blender → Unity 的资产管线配置**（`.fbx.meta` 中的 12 项 `ModelImporter` 参数调优）
 - 场景搭建、交互配置、UI 面板（`Canvas` 系列 Prefab）、动画状态机（`.controller` / `.anim`）
 - Visual Scripting 逻辑图、工程配置（`ProjectSettings/`、`Packages/manifest.json`）
 - 剧情文本、游戏名称《拾光》、主视觉与结束页美术
@@ -398,16 +453,28 @@ cd shiguang
 
 | 内容 | 来源 | 处理方式 |
 | --- | --- | --- |
-| 卧室 / 餐厅 / 菜品 3D 模型及贴图 | **3d66 网**（商业模型，VRay 材质，编号见文件名 `3d66Model-*`） | ❌ **已排除出仓库**，不对外分发 |
+| 卧室 / 餐厅 / 菜品 3D 模型 | **Blender 制作 / 加工**（FBX 由 Blender 稳定版 FBX IO 导出） | ❌ **未入库**（体积原因），见 10.4 |
+| 上述模型配套的贴图文件 | 部分沿用 3d66 网素材库（`3d66Model-*` / `mat_3d66-VRayMtl-*` 前缀） | ❌ **未入库**（体积 + 第三方授权） |
 | FreeUI / ZOSMA UI 素材 | 免费 UI 资源包 | ✅ 保留（请遵循原资源包授权） |
 | TextMesh Pro 字体与 Shader | Unity Technologies | ✅ 保留（遵循 Unity 附带许可） |
 
-> **为什么排除 3D 模型**：一是单文件最大 147 MB，超出 GitHub 100 MB 的单文件限制；二是这些是第三方**商业**模型，公开分发可能超出其授权范围。排除后仓库仅约 **13 MB**，非常轻量。
+> **为什么 3D 模型没有入库**：一是单文件最大 147 MB，超出 GitHub **100 MB 的单文件限制**；二是模型配套的贴图部分来自第三方素材站（文件名保留 `3d66Model-*` 前缀可证），公开分发可能超出其授权范围。排除后仓库仅约 **14 MB**，非常轻量。
 
-### 10.3 玩家与二次使用
+### 10.3 关于模型素材的一点说明
 
-- 本仓库**代码部分**采用 MIT 协议，欢迎学习、参考、二次开发；
-- 二次发布时请**自行取得 3D 场景素材的合法授权**，并保留本项目出处；
+这里的实际情况比"全是第三方"或"全是原创"要复杂，我们选择如实说明：
+
+- **建模与整合均在 Blender 中完成** —— 三个 FBX 的元数据（`Creator` / `ApplicationVendor`）明确为 **`Blender Foundation` 的 stable FBX IO** 导出，版本分别是 **3.6.12**（餐厅、菜品）与 **4.2.0**（卧室）；
+- **部分贴图沿用第三方素材库的原始资源** —— 贴图文件名仍保留下载时的编号前缀（`3d66Model-22310475-files-*` 等），这部分我们不主张版权，故不随仓库分发；
+- 因此在文档与许可证（[NOTICE.md](NOTICE.md)）中，我们把**建模工作流与整套工程配置**归为团队原创，把**第三方来源的贴图位图**单独列出。
+
+二次使用时请以 10.4 节的说明为准，自行判断素材授权边界。
+
+### 10.4 玩家与二次使用
+
+- 本仓库**代码与工程部分**采用 MIT 协议，欢迎学习、参考、二次开发；
+- 二次发布时请**自行取得 3D 模型贴图的合法授权**，并保留本项目出处；
+- 若你打算复用这套 **Blender → Unity** 的资产管线，可以直接照搬 [5.2 节](#blender-workflow)的 `ModelImporter` 配置表；
 - 请勿将本项目整体用于商业售卖。
 
 ---
@@ -444,6 +511,7 @@ cd shiguang
 - 感谢**韩改宁老师**在整个赛程中的指导与把关；
 - 感谢**咸阳师范学院**提供的设备与参赛支持；
 - 感谢 [Unity Technologies](https://unity.com/) 提供引擎，[TextMesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) 提供文本渲染方案；
+- 感谢 [Blender Foundation](https://www.blender.org/) —— 这款开源 3D 创作软件承担了本作全部的建模工作，让零预算的学生团队也能做出完整的室内场景；
 - 剧情灵感致敬海伦·凯勒的《假如给我三天光明》。
 
 ---
@@ -463,7 +531,7 @@ cd shiguang
 ## 十三、许可证
 
 代码与工程内容基于 **MIT License** 开源，详见 [LICENSE](LICENSE)。
-第三方素材（3D 模型、UI 包、字体）版权归各自权利人，**授权状况与二次使用说明详见 [NOTICE.md](NOTICE.md)**。
+第三方素材（模型贴图、UI 包、字体）版权归各自权利人，**授权边界与二次使用说明详见 [NOTICE.md](NOTICE.md)**。
 
 <div align="center">
 <br>

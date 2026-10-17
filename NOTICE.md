@@ -6,16 +6,32 @@
 
 ---
 
-## 1. 第三方 3D 场景模型 —— 已排除出仓库
+## 1. 3D 模型 —— 建模由本项目团队完成（Blender），部分贴图源自第三方素材库
+
+### 1.1 建模工作：团队原创
+
+本作**全部 3D 模型**（卧室场景、餐厅场景、菜品道具）的**建模、UV 展开、材质分配、减面与整合**均由本项目团队在 **Blender** 中完成。
+
+这一点可以由 FBX 文件自身的元数据佐证：
+
+| 模型文件 | `HeaderExtension.Creator` | `ApplicationVendor` | 体积 |
+| --- | --- | --- | --- |
+| `卧室1.fbx` | `Blender (stable FBX IO) - 4.2.0 - 5.12.4` | Blender Foundation | 147.1 MB |
+| `餐厅.fbx` | `Blender (stable FBX IO) - 3.6.12 - 5.4.1` | Blender Foundation | 45.6 MB |
+| `菜1.fbx` | `Blender (stable FBX IO) - 3.6.12 - 5.4.1` | Blender Foundation | 16.2 MB |
+
+建模工作流、Blender 导出参数、以及 Unity 侧对应的 `ModelImporter` 配置（记录在 `.fbx.meta` 中，**随仓库分发**）属于本项目原创内容，适用 MIT 许可。
+
+### 1.2 贴图：部分源自第三方素材库
+
+上述模型配套的**位图贴图**，有一部分沿用自 3d66 网素材库的原始资源（文件名仍保留下载时的编号前缀，如 `3d66Model-22310475-files-*`、`mat_3d66-VRayMtl-*`），这部分版权归原权利人所有，**不适用 MIT 许可**。
+
+### 1.3 为何未纳入版本控制
 
 | 内容 | 来源 | 处理方式 |
 | --- | --- | --- |
-| 卧室 / 餐厅 / 菜品 3D 模型及配套贴图<br>（文件名含 `3d66Model-*`、`mat_3d66-VRayMtl-*`） | **3d66 网**（商业模型，VRay 材质） | ❌ **未纳入版本控制，不对外分发** |
-
-**排除原因**
-
-1. 单文件最大 147 MB（`卧室1.fbx`），超出 GitHub 100 MB 的单文件限制；
-2. 属于第三方**商业**素材，公开分发可能超出其授权范围。
+| 3D 模型 FBX | 本项目团队（Blender 制作） | ❌ 未入库 —— 体积原因（单文件 147 MB 超 GitHub 100 MB 限制） |
+| 配套贴图 | 部分源自 3d66 网素材库 | ❌ 未入库 —— 体积 + 第三方授权 |
 
 排除后仓库仅约 14 MB。clone 后在 Unity 中打开会看到模型缺失（Missing Prefab / 粉色材质），这是**预期行为**，不影响代码、UI、动画与工程配置的阅读。
 
@@ -36,6 +52,8 @@
 ## 3. 项目原创内容（MIT）
 
 - 全部 C# 脚本：`Assets/FALES/InteractableObject.cs`、`Assets/beer.cs`、`Assets/control.cs`、`Assets/control1.cs`、`Assets/TuiChu.cs`
+- **全部 3D 模型的建模、UV、材质与整合工作**（Blender 3.6 / 4.2 制作并导出）
+- **Blender → Unity 资产管线配置**（`.fbx.meta` 中的 `ModelImporter` 参数调优）
 - 场景搭建、交互配置、Visual Scripting 逻辑图
 - UI 面板 Prefab（`Canvas` 系列）、动画状态机（`.controller` / `.anim`）
 - 工程配置：`ProjectSettings/`、`Packages/manifest.json`
@@ -47,8 +65,9 @@
 ## 4. 二次使用建议
 
 - ✅ **学习、参考、二次开发代码**：欢迎，标注出处即可；
-- ⚠️ **二次发布完整可玩版本**：请**自行取得 3D 场景素材的合法授权**；
-- ❌ **整体商业售卖**：请勿直接使用，第三方素材授权不支持此类用途。
+- ✅ **复用 Blender → Unity 建模管线**：欢迎，README 第 5.2 节有完整配置表；
+- ⚠️ **二次发布完整可玩版本**：请**自行取得 3D 模型贴图的合法授权**（部分源自第三方素材库）；
+- ❌ **整体商业售卖**：请勿直接使用。
 
 ---
 
